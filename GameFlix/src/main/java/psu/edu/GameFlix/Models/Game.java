@@ -1,17 +1,13 @@
 package psu.edu.GameFlix.Models;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,50 +17,43 @@ public class Game {
   public enum Status { COMING_SOON, RELEASED }
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private int id;
 
-  @Column(nullable = false, unique = true, length = 150)
+  @Column(name = "slug")
   private String slug;
 
-  @Column(nullable = false, length = 200)
+  @Column(name = "title")
   private String title;
 
-  @Lob
+  @Column(name = "description")
   private String description;
 
-  @Column(name = "esrb_rating", length = 10)
+  @Column(name = "esrb_rating")
   private String esrbRating;
-
-  // keep it simple; you can map to a Publisher entity later
-  @Column(name = "publisher_id")
-  private Long publisherId;
 
   @Column(name = "release_date")
   private LocalDate releaseDate;
 
-  @Enumerated(EnumType.STRING)
-  @Column(nullable = false, length = 20)
-  private Status status;
+  @Column(name = "status")
+  private String status;
 
-  @Column(name = "box_art_url", length = 500)
+  @Column(name = "box_art_url")
   private String boxArtUrl;
 
-  @Column(name = "trailer_url", length = 500)
+  @Column(name = "trailer_url")
   private String trailerUrl;
 
-  private BigDecimal msrp;
-
-  @Column(name = "created_at", nullable = false)
+  @Column(name = "created_at")
   private LocalDateTime createdAt;
 
-  @Column(name = "updated_at", nullable = false)
+  @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -100,14 +89,6 @@ public class Game {
         this.esrbRating = esrbRating;
     }
 
-    public Long getPublisherId() {
-        return publisherId;
-    }
-
-    public void setPublisherId(Long publisherId) {
-        this.publisherId = publisherId;
-    }
-
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
@@ -116,11 +97,11 @@ public class Game {
         this.releaseDate = releaseDate;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -138,14 +119,6 @@ public class Game {
 
     public void setTrailerUrl(String trailerUrl) {
         this.trailerUrl = trailerUrl;
-    }
-
-    public BigDecimal getMsrp() {
-        return msrp;
-    }
-
-    public void setMsrp(BigDecimal msrp) {
-        this.msrp = msrp;
     }
 
     public LocalDateTime getCreatedAt() {

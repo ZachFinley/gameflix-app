@@ -13,10 +13,25 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "display_name")
+    private String displayName;
+
+    @Column(name = "is_email_verified")
+    private boolean isEmailVerified;
+
+    @Column(name = "is_admin")
+    private boolean isAdmin;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "password_hash")
     private String passwordHash;
@@ -24,26 +39,11 @@ public class User {
     @Column(name = "password_salt")
     private String passwordSalt;
 
-    @Column(name = "display_name", nullable = false, length = 100)
-    private String displayName;
-
-    @Column(name = "is_email_verified", nullable = false)
-    private boolean isEmailVerified;
-
-    @Column(name = "is_admin", nullable = false)
-    private boolean isAdmin;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
