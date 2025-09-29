@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import psu.edu.GameFlix.Models.GameSummary;
-import psu.edu.GameFlix.Models.UserSummary;
+import psu.edu.GameFlix.Models.User;
+import psu.edu.GameFlix.Models.Game;
 import psu.edu.GameFlix.Repoitories.GameRepository;
 import psu.edu.GameFlix.Repoitories.UserRepository;
 
@@ -29,12 +29,12 @@ public class Controller {
   }
 
   @GetMapping("/users")
-  public List<UserSummary> getUsers() {
-    return userRepo.findAllUserSummaries();
+  public List<User> getUsers() {
+    return userRepo.findAll();
   }
 
    @GetMapping("/games")
-   public List<GameSummary> getGames() {
-     return gameRepo.findAllGameSummaries();
+   public List<Game> getGames() {
+     return gameRepo.findAll();
    }
 }
