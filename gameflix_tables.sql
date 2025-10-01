@@ -22,7 +22,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ========= Base / Lookup =========
 
 CREATE TABLE users (
-  id               BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id               INT PRIMARY KEY AUTO_INCREMENT,
   email            VARCHAR(255) NOT NULL UNIQUE,
   password_hash    VARCHAR(255) NULL,
   display_name     VARCHAR(100) NOT NULL,
@@ -33,27 +33,27 @@ CREATE TABLE users (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE roles (
-  id     BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id     INT PRIMARY KEY AUTO_INCREMENT,
   name   VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE publishers (
-  id    BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id    INT PRIMARY KEY AUTO_INCREMENT,
   name  VARCHAR(150) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE platforms (
-  id    BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id    INT PRIMARY KEY AUTO_INCREMENT,
   name  VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE genres (
-  id    BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id    INT PRIMARY KEY AUTO_INCREMENT,
   name  VARCHAR(50) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE subscription_plans (
-  id             BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id             INT PRIMARY KEY AUTO_INCREMENT,
   name           VARCHAR(100) NOT NULL,
   price_monthly  DECIMAL(10,2) NOT NULL,
   currency       CHAR(3) NOT NULL DEFAULT 'USD',
@@ -63,8 +63,8 @@ CREATE TABLE subscription_plans (
 -- ========= Join / Auth =========
 
 CREATE TABLE user_roles (
-  user_id BIGINT NOT NULL,
-  role_id BIGINT NOT NULL,
+  user_id INT NOT NULL,
+  role_id INT NOT NULL,
   assigned_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, role_id),
   CONSTRAINT fk_user_roles_user
@@ -78,7 +78,7 @@ CREATE TABLE user_roles (
 -- ========= Catalog =========
 
 CREATE TABLE games (
-  id             BIGINT PRIMARY KEY AUTO_INCREMENT,
+  id             INT PRIMARY KEY AUTO_INCREMENT,
   slug           VARCHAR(150) NOT NULL UNIQUE,
   title          VARCHAR(200) NOT NULL,
   description    TEXT NULL,
@@ -88,7 +88,6 @@ CREATE TABLE games (
   status         ENUM('Coming Soon','Released') NOT NULL,
   box_art_url    VARCHAR(500) NULL,
   trailer_url    VARCHAR(500) NULL,
-  msrp           DECIMAL(10,2) NULL,
   created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   INDEX idx_games_status_releasedate (status, release_date),
@@ -101,9 +100,9 @@ CREATE TABLE games (
 -- ========= Subscriptions & Billing =========
 
 CREATE TABLE user_subscriptions (
-  id                       BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_id                  BIGINT NOT NULL,
-  plan_id                  BIGINT NOT NULL,
+  id                       INT PRIMARY KEY AUTO_INCREMENT,
+  user_id                  INT NOT NULL,
+  plan_id                  INT NOT NULL,
   status                   VARCHAR(100) NOT NULL,
   start_date               DATE NOT NULL,
   renewal_date             DATE NULL,
@@ -119,9 +118,9 @@ CREATE TABLE user_subscriptions (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE payments (
-  id                    BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_id               BIGINT NOT NULL,
-  subscription_id       BIGINT NOT NULL,
+  id                    INT PRIMARY KEY AUTO_INCREMENT,
+  user_id               INT NOT NULL,
+  subscription_id       INT NOT NULL,
   provider_payment_id   VARCHAR(100) NULL UNIQUE,
   amount                DECIMAL(10,2) NOT NULL,
   currency              CHAR(3) NOT NULL DEFAULT 'USD',
@@ -140,8 +139,8 @@ CREATE TABLE payments (
 -- ========= Library, Wishlist, Reviews =========
 
 CREATE TABLE libraries (
-  user_id  BIGINT NOT NULL,
-  game_id  BIGINT NOT NULL,
+  user_id  INT NOT NULL,
+  game_id  INT NOT NULL,
   added_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   source   ENUM('Browse','Search','Recommended') NOT NULL DEFAULT 'Browse',
   PRIMARY KEY (user_id, game_id),
@@ -155,8 +154,8 @@ CREATE TABLE libraries (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE wishlists (
-  user_id  BIGINT NOT NULL,
-  game_id  BIGINT NOT NULL,
+  user_id  INT NOT NULL,
+  game_id  INT NOT NULL,
   added_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (user_id, game_id),
   CONSTRAINT fk_wishlists_user
@@ -168,10 +167,10 @@ CREATE TABLE wishlists (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE reviews (
-  id        BIGINT PRIMARY KEY AUTO_INCREMENT,
-  user_id   BIGINT NOT NULL,
-  game_id   BIGINT NOT NULL,
-  rating    TINYINT NOT NULL,
+  id        INT PRIMARY KEY AUTO_INCREMENT,
+  user_id   INT NOT NULL,
+  game_id   INT NOT NULL,
+  rating    INT NOT NULL,
   title     VARCHAR(200) NULL,
   body      TEXT NULL,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

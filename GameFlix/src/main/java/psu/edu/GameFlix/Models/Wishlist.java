@@ -8,8 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "libraries")
-public class Library {
+@Table(name = "wishlists")
+public class Wishlist {
 
     @Id
     @Column(name = "user_id")
@@ -21,9 +21,6 @@ public class Library {
 
     @Column(name = "added_at")
     private LocalDateTime addedAt = LocalDateTime.now();
-
-    @Column(name = "source")
-    private String source = "Browse";
 
     // Getters and Setters
     public int getUserId() {
@@ -48,13 +45,5 @@ public class Library {
 
     public void setAddedAt(LocalDateTime addedAt) {
         this.addedAt = addedAt;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 }
