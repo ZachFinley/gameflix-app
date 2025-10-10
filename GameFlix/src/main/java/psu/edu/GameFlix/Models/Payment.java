@@ -23,9 +23,6 @@ public class Payment {
     @Column(name = "subscription_id")
     private int subscriptionId;
 
-    @Column(name = "provider_payment_id")
-    private int providerPaymentId;
-
     @Column(name = "amount")
     private double amount;
     @Column(name = "currency")
@@ -63,14 +60,6 @@ public class Payment {
 
     public void setSubscriptionId(int subscriptionId) {
         this.subscriptionId = subscriptionId;
-    }
-
-    public int getProviderPaymentId() {
-        return providerPaymentId;
-    }
-
-    public void setProviderPaymentId(int providerPaymentId) {
-        this.providerPaymentId = providerPaymentId;
     }
 
     public double getAmount() {

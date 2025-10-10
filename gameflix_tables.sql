@@ -121,7 +121,6 @@ CREATE TABLE payments (
   id                    INT PRIMARY KEY AUTO_INCREMENT,
   user_id               INT NOT NULL,
   subscription_id       INT NOT NULL,
-  provider_payment_id   VARCHAR(100) NULL UNIQUE,
   amount                DECIMAL(10,2) NOT NULL,
   currency              CHAR(3) NOT NULL DEFAULT 'USD',
   status                ENUM('Succeeded','Failed','Refunded','Pending') NOT NULL,
