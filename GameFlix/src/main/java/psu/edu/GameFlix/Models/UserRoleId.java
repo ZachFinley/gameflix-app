@@ -1,7 +1,6 @@
 package psu.edu.GameFlix.Models;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class UserRoleId implements Serializable {
     private int userId;

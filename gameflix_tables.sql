@@ -83,7 +83,7 @@ CREATE TABLE games (
   title          VARCHAR(200) NOT NULL,
   description    TEXT NULL,
   esrb_rating    VARCHAR(10) NULL,
-  publisher_id   BIGINT NULL,
+  publisher_id   INT NULL,
   release_date   DATE NULL,
   status         ENUM('Coming Soon','Released') NOT NULL,
   box_art_url    VARCHAR(500) NULL,
@@ -206,3 +206,9 @@ INSERT INTO users (email, password_hash, display_name, is_email_verified, is_adm
 ('oxs1759@psu.edu', 'hash6', 'Oliver Symonds', false, 0, NOW(), NOW()),
 ('cxc628@psu.edu', 'hash7', 'Chas Christonson', 0, 0, NOW(), NOW()),
 ('fxf1344@psu.edu', 'hash8', 'Fae Farley', 0, 0, NOW(), NOW());
+
+-- Insert Test libary entries
+INSERT INTO libraries (user_id, game_id, added_at, source) VALUES
+(1, 1, NOW(), 'Browse'),
+(1, 2, NOW(), 'Search'),
+(1, 5, NOW(), 'Recommended')
