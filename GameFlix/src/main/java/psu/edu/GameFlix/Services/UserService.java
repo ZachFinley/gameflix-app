@@ -3,6 +3,7 @@ package psu.edu.GameFlix.Services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import psu.edu.GameFlix.Models.Library;
@@ -21,12 +22,14 @@ public class UserService {
     private final UserRoleRepository userRoleRepository;
     private final LibraryRepository libraryRepository;
     private final WishlistRepository wishlistRepository;
+    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository theUserRepository, UserRoleRepository theUserRoleRepository, LibraryRepository theLibraryRepository, WishlistRepository theWishlistRepository) {
+    public UserService(UserRepository theUserRepository, UserRoleRepository theUserRoleRepository, LibraryRepository theLibraryRepository, WishlistRepository theWishlistRepository, PasswordEncoder theEncoder) {
         userRepository = theUserRepository;
         userRoleRepository = theUserRoleRepository;
         libraryRepository = theLibraryRepository;
         wishlistRepository = theWishlistRepository;
+        encoder = theEncoder;
     }
 
     public List<User> findAllUsers() {
@@ -60,5 +63,21 @@ public class UserService {
     public boolean isUserAdmin(int userId) {
         Optional<User> user = findUserById(userId);
         return user.map(User::isAdmin).orElse(false);
+    }
+    public User registerUser(User user) {
+        return userRepository.save(user);
+    }
+    public User loginUser(String email, String password) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (encoder.matches(password, user.getPasswordHash())) {
+                return user;
+            } else {
+                throw new RuntimeException("Invalid password");
+            }
+        } else {
+            throw new RuntimeException("User not found with email: " + email);
+        }
     }
 }

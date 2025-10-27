@@ -36,6 +36,9 @@ public class User {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    public User() {
+    }
+
     public int getId() {
         return id;
     }
