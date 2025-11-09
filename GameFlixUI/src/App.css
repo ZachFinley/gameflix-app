@@ -1,0 +1,50 @@
+:root {
+  --gf-card-width: 180px;
+  --gf-card-height: 220px;
+}
+
+.gf-app {
+  font-family: sans-serif;
+}
+
+.gf-navbar { padding: 0.75rem 1.25rem; border-bottom: 1px solid #dee2e6; }
+
+.gf-nav-link { background: none; border: none; padding: 0.25rem 0.5rem; }
+
+.gf-game-card {
+  width: var(--gf-card-width);
+  height: var(--gf-card-height);
+  border: 1px solid #eee;
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.gf-game-image {
+  background: #f3f3f3;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.gf-modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center;
+}
+
+.gf-modal {
+  background: #fff; padding: 1rem; border-radius: 6px; min-width: 320px; max-width: 90%;
+}
+
+.gf-actions { display: flex; gap: 0.5rem; }
+
+.gf-table th, .gf-table td { padding: 0.5rem; border-bottom: 1px solid #f3f3f3; }
+
+/* form max-width helpers */
+.gf-form-max-sm { max-width: 420px; }
+.gf-form-max-md { max-width: 600px; }
+
+.mw-100p { max-width: 100%; }

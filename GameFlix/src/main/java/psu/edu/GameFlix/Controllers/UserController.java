@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import psu.edu.GameFlix.Models.Library;
+import java.util.Map;
 import psu.edu.GameFlix.Models.User;
 import psu.edu.GameFlix.Models.UserRole;
 import psu.edu.GameFlix.Models.Wishlist;
@@ -60,6 +62,20 @@ public class UserController {
     @GetMapping("/{userId}/library")
     public List<Library> getUserLibrary(@PathVariable int userId) {
         return userService.findUserLibrary(userId);
+    }
+
+    @PostMapping("/{userId}/library")
+    public Library addToLibrary(@PathVariable int userId, @RequestBody Map<String, Integer> req) {
+        int gameId = req.getOrDefault("gameId", -1);
+        Library lib = new Library();
+        lib.setUserId(userId);
+        lib.setGameId(gameId);
+        return userService.addToLibrary(lib);
+    }
+
+    @DeleteMapping("/{userId}/library/{gameId}")
+    public void removeFromLibrary(@PathVariable int userId, @PathVariable int gameId) {
+        userService.removeFromLibrary(userId, gameId);
     }
 
     @GetMapping("/{userId}/wishlist")

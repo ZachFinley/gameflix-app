@@ -14,6 +14,7 @@ import psu.edu.GameFlix.Repoitories.LibraryRepository;
 import psu.edu.GameFlix.Repoitories.UserRepository;
 import psu.edu.GameFlix.Repoitories.UserRoleRepository;
 import psu.edu.GameFlix.Repoitories.WishlistRepository;
+import psu.edu.GameFlix.Models.LibraryId;
 
 @Service
 public class UserService {
@@ -60,6 +61,19 @@ public class UserService {
         return wishlistRepository.findByUserId(userId);
     }
 
+    public Library addToLibrary(Library lib) {
+        return libraryRepository.save(lib);
+    }
+
+    public void removeFromLibrary(int userId, int gameId) {
+        LibraryId id = new LibraryId(userId, gameId);
+        if (libraryRepository.existsById(id)) {
+            libraryRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Library entry not found");
+        }
+    }
+
     public boolean isUserAdmin(int userId) {
         Optional<User> user = findUserById(userId);
         return user.map(User::isAdmin).orElse(false);
@@ -69,15 +83,11 @@ public class UserService {
     }
     public User loginUser(String email, String password) {
         Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isPresent()) {
-            User user = userOpt.get();
-            if (encoder.matches(password, user.getPasswordHash())) {
-                return user;
-            } else {
-                throw new RuntimeException("Invalid password");
-            }
+        User user = userOpt.get();
+        if (encoder.matches(password, user.getPasswordHash())) {
+            return user;
         } else {
-            throw new RuntimeException("User not found with email: " + email);
+            throw new RuntimeException("Invalid password");
         }
     }
 }
