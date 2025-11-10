@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: gameflix_db
+      MYSQL_ROOT_PASSWORD: "72779673"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./gameflix_tables.sql:/docker-entrypoint-initdb.d/gameflix_tables.sql:ro
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p72779673" ]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  gameflix-backend:
+    build:
+      context: ./GameFlix
+      dockerfile: Dockerfile
+    image: gameflix-backend
+    container_name: gameflix-backend
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gameflix_db"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "72779673"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  db-data:
