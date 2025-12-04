@@ -24,4 +24,4 @@ jobs:
       run: mvn clean package
 
     - name: Build Docker image
-      run: docker build -t gameflix-backend
+      run: docker compose up --build -d

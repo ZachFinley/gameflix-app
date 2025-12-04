@@ -28,8 +28,8 @@ CREATE TABLE users (
   display_name     VARCHAR(100) NOT NULL,
   is_email_verified TINYINT(1) NOT NULL DEFAULT 0,
   is_admin         TINYINT(1) NOT NULL DEFAULT 0,
-  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at       DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE roles (
@@ -185,27 +185,27 @@ CREATE TABLE reviews (
 
 -- Insert test games
 INSERT INTO games (slug, title, description, esrb_rating, release_date, status, box_art_url, trailer_url, created_at, updated_at) VALUES
-('spider-man-2', 'Spider-Man 2', 'Web-slinging action adventure game featuring Spider-Man in an open-world New York City.', 'T', '2023-10-20', 'Released', 'https://example.com/spiderman2.jpg', 'https://example.com/spiderman2-trailer.mp4', NOW(), NOW()),
-('cyberpunk-2077', 'Cyberpunk 2077', 'Open-world RPG set in the dystopian Night City where you play as a cyberpunk mercenary.', 'M', '2020-12-10', 'Released', 'https://example.com/cyberpunk.jpg', 'https://example.com/cyberpunk-trailer.mp4', NOW(), NOW()),
-('the-witcher-4', 'The Witcher 4', 'The next installment in the legendary Witcher series with a new protagonist.', 'M', '2025-12-01', 'Coming Soon', 'https://example.com/witcher4.jpg', 'https://example.com/witcher4-trailer.mp4', NOW(), NOW()),
-('pokemon-legends-ZA', 'Pokemon Legends ZA', 'Catch Pokemon and battle trainers to level up in the ZA Royale.', 'E', '2024-10-16', 'Coming Soon', 'https://example.com/mariokart9.jpg', 'https://example.com/mariokart9-trailer.mp4', NOW(), NOW()),
-('halo-infinite', 'Halo Infinite', 'Master Chief returns in this epic sci-fi first-person shooter.', 'T', '2021-12-08', 'Released', 'https://example.com/halo.jpg', 'https://example.com/halo-trailer.mp4', NOW(), NOW()),
-('god-of-war-ragnarok', 'God of War Ragnarök', 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.', 'M', '2022-11-09', 'Released', 'https://example.com/gow.jpg', 'https://example.com/gow-trailer.mp4', NOW(), NOW()),
-('starfield', 'Starfield', 'Bethesdas first new universe in over 25 years - a space exploration RPG.', 'T', '2023-09-06', 'Released', 'https://example.com/starfield.jpg', 'https://example.com/starfield-trailer.mp4', NOW(), NOW()),
-('zelda-tears-kingdom', 'The Legend of Zelda: Tears of the Kingdom', 'The sequel to Breath of the Wild with new abilities and expanded Hyrule.', 'E10+', '2023-05-12', 'Released', 'https://example.com/zelda.jpg', 'https://example.com/zelda-trailer.mp4', NOW(), NOW()),
-('final-fantasy-vii-rebirth', 'Final Fantasy VII Rebirth', 'The second installment in the Final Fantasy VII Remake trilogy.', 6, '2024-02-29', 'Released', 'https://example.com/ff7.jpg', 'https://example.com/ff7-trailer.mp4', NOW(), NOW()),
-('grand-theft-auto-vi', 'Grand Theft Auto VI', 'The highly anticipated next entry in the GTA series.', 'M', '2025-03-15', 'Coming Soon', 'https://example.com/gta6.jpg', 'https://example.com/gta6-trailer.mp4', NOW(), NOW());
+('spider-man-2', 'Spider-Man 2', 'Web-slinging action adventure game featuring Spider-Man in an open-world New York City.', 'T', '2023-10-20', 'Released', 'spiderman2.jpg', '', NOW(), NOW()),
+('cyberpunk-2077', 'Cyberpunk 2077', 'Open-world RPG set in the dystopian Night City where you play as a cyberpunk mercenary.', 'M', '2020-12-10', 'Released', 'cyberpunk.jpg', '', NOW(), NOW()),
+('the-witcher-4', 'The Witcher 4', 'The next installment in the legendary Witcher series with a new protagonist.', 'M', '2025-12-01', 'Coming Soon', 'witcher4.jpg', '', NOW(), NOW()),
+('pokemon-legends-ZA', 'Pokemon Legends ZA', 'Catch Pokemon and battle trainers to level up in the ZA Royale.', 'E', '2024-10-16', 'Coming Soon', 'pokemon-legends-ZA.jpg', '', NOW(), NOW()),
+('halo-infinite', 'Halo Infinite', 'Master Chief returns in this epic sci-fi first-person shooter.', 'T', '2021-12-08', 'Released', 'halo.jpg', '', NOW(), NOW()),
+('god-of-war-ragnarok', 'God of War Ragnarök', 'Kratos and Atreus embark on a mythic journey for answers before Ragnarök arrives.', 'M', '2022-11-09', 'Released', 'god-of-war-ragnarok.jpg', '', NOW(), NOW()),
+('starfield', 'Starfield', 'Bethesdas first new universe in over 25 years - a space exploration RPG.', 'T', '2023-09-06', 'Released', 'starfield.jpg', '', NOW(), NOW()),
+('zelda-tears-kingdom', 'The Legend of Zelda: Tears of the Kingdom', 'The sequel to Breath of the Wild with new abilities and expanded Hyrule.', 'E10+', '2023-05-12', 'Released', 'zelda-tears-kingdom.jpg', '', NOW(), NOW()),
+('final-fantasy-vii-rebirth', 'Final Fantasy VII Rebirth', 'The second installment in the Final Fantasy VII Remake trilogy.', 6, '2024-02-29', 'Released', 'ff7.jpg', '', NOW(), NOW()),
+('grand-theft-auto-vi', 'Grand Theft Auto VI', 'The highly anticipated next entry in the GTA series.', 'M', '2025-03-15', 'Coming Soon', 'gta6.jpg', '', NOW(), NOW());
 
 -- Insert test users
 INSERT INTO users (email, password_hash, display_name, is_email_verified, is_admin, created_at, updated_at) VALUES
-('zcf5026@psu.edu', 'hash1', 'Zach Finley', 1, 1, NOW(), NOW()),
-('exw2345@psu.edu', 'hash2', 'Elmer Winwood', 1, 0, NOW(), NOW()),
-('jxa2349@psu.edu', 'hash3', 'Joan Averal', 0, 0, NOW(), NOW()),
-('nxn5012@psu.edu', 'hash4', 'Niki Neil', 1, 0, NOW(), NOW()),
-('sxb2753@psu.edu', 'hash5', 'Stacy Bush', 1, 0, NOW(), NOW()),
-('oxs1759@psu.edu', 'hash6', 'Oliver Symonds', false, 0, NOW(), NOW()),
-('cxc628@psu.edu', 'hash7', 'Chas Christonson', 0, 0, NOW(), NOW()),
-('fxf1344@psu.edu', 'hash8', 'Fae Farley', 0, 0, NOW(), NOW());
+('zcf5026@psu.edu', '$2a$12$OF2ApqbWXAMSNyfBjTg2HOW9QhRzpJb99mZnbh2eAdszuVo8fWjqu', 'Zach Finley', 1, 1, NOW(), NOW()),
+('exw2345@psu.edu', '$2a$12$DkWrW6Q6YmngvV4a1O8/VOq6ZrDtDOlhpwXnXP4.yFWendd7yBSRq', 'Elmer Winwood', 1, 0, NOW(), NOW()),
+('jxa2349@psu.edu', '$2a$12$KcN8HhwaqBnBKcQ/5nNlJ.YZdbGvDLrI.W5qjDOK4BEGTbtujFatq', 'Joan Averal', 0, 0, NOW(), NOW()),
+('nxn5012@psu.edu', '$2a$12$usIhWgnbjYsj/Jl2vMJktO7U.r3SI6f3udGhDceVqGArV6jW/O5MO', 'Niki Neil', 1, 0, NOW(), NOW()),
+('sxb2753@psu.edu', '$2a$12$KJsm6rJ63LFIrRZKvcLvjeADug5FaSIpa.YVkcIcWvkiZ90BOEFAS', 'Stacy Bush', 1, 0, NOW(), NOW()),
+('oxs1759@psu.edu', '$2a$12$zP3XgJJcAOqy0WZveSjef.vfocvvLiEXZyfdSLAqhG6EEDIYWTLL.', 'Oliver Symonds', false, 0, NOW(), NOW()),
+('cxc628@psu.edu', '$2a$12$isQC1MjoOxY6K7AVZzNvbe1xFzaXS.1rZ8aHngv9W.dU6yuq3Sfjm', 'Chas Christonson', 0, 0, NOW(), NOW()),
+('fxf1344@psu.edu', '$2a$12$wy3tm3xpTVGjxJEIc678kOD9DMpS4s9qZW8JtMgG.KI5y.NMXb.Cq', 'Fae Farley', 0, 0, NOW(), NOW());
 
 -- Insert Test libary entries
 INSERT INTO libraries (user_id, game_id, added_at, source) VALUES
