@@ -1,4 +1,4 @@
-type User = { id: number; displayName: string; email?: string; admin?: boolean };
+import type { User } from "../types";
 
 type Props = { user: User; onClose: () => void; onSignOut?: () => void };
 

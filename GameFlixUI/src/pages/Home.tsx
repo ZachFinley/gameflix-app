@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import * as api from "../api";
+import type { Game } from "../types";
 
-type Game = { id: number; title: string; status?: string; image?: string };
-type ApiGame = { id: number; title?: string; status?: string; imageUrl?: string };
 
 export default function Home() {
   const [newly, setNewly] = useState<Game[]>([]);
@@ -11,8 +10,7 @@ export default function Home() {
 
   useEffect(() => {
     api.getAllGames()
-      .then((list: ApiGame[]) => {
-        const games: Game[] = list.map((g: ApiGame) => ({ id: g.id, title: g.title || "", status: g.status, image: g.imageUrl }));
+      .then((games: Game[]) => {
         setUpcoming(games.filter(g => (g.status || "").toLowerCase() === "upcoming"));
         const released = games.filter(g => (g.status || "").toLowerCase() === "released");
         const others = games.filter(g => !["released", "upcoming"].includes((g.status || "").toLowerCase()));

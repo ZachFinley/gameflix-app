@@ -1,4 +1,4 @@
-type Game = { id: number; title: string; slug?: string; status?: string };
+import type { Game } from "../types";
 
 type Props = {
   games: Game[];

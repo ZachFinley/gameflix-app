@@ -1,4 +1,4 @@
-type Game = { id: number; title: string; status?: string; image?: string; description?: string };
+import type { Game } from "../types";
 
 type Props = {
   game: Game;

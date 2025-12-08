@@ -1,7 +1,6 @@
 import { useState } from "react";
 import * as api from "../api";
-
-type User = { id: number; displayName: string; email?: string; admin?: boolean };
+import type { User } from "../types";
 
 type Props = {
   onSignedIn: (user: User) => void;

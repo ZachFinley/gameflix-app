@@ -1,15 +1,6 @@
 import { useState } from "react";
+import type { Game } from "../types";
 
-type Game = {
-  id?: number;
-  title?: string;
-  slug?: string;
-  esrbRating?: string;
-  releaseDate?: string;
-  status?: string;
-  description?: string;
-  imageUrl?: string;
-};
 
 type Props = {
   game?: Game;
@@ -18,7 +9,7 @@ type Props = {
 };
 
 export default function GameForm({ game, onCancel, onSave }: Props) {
-  const [form, setForm] = useState<Game>({ ...(game || {}) });
+  const [form, setForm] = useState<Game>({ id: 0, ...(game || {}) });
 
   function change<K extends keyof Game>(k: K, v: Game[K]) {
     setForm(prev => ({ ...prev, [k]: v }));

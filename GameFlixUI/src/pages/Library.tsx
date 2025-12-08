@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import * as api from "../api";
 import GameModal from "../components/GameModal";
-
-type Game = { id: number; title: string; status?: string };
-type LibraryEntry = { userId: number; gameId: number; addedAt?: string; source?: string };
+import type { Game, LibraryEntry } from "../types";
 
 type Props = { currentUser: { id: number } | null; allGames: Game[] };
 

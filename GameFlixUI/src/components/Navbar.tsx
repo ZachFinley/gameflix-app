@@ -1,8 +1,4 @@
-type User = {
-  id: number;
-  displayName: string;
-  admin?: boolean;
-};
+import type { User } from "../types";
 
 type Props = {
   currentUser: User | null;

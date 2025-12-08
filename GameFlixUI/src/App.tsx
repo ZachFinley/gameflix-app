@@ -8,14 +8,11 @@ import GameForm from "./pages/GameForm";
 import UserModal from "./components/UserModal";
 import DeleteModal from "./components/DeleteModal";
 import * as api from "./api";
-
-type User = { id: number; displayName: string; email?: string; admin?: boolean } | null;
-type Game = { id: number; title: string; slug?: string; status?: string };
-type ApiGame = { id: number; title: string; slug?: string; status?: string };
+import type { User, Game } from "./types";
 
 export default function App() {
   const [page, setPage] = useState<string>("home");
-  const [currentUser, setCurrentUser] = useState<User>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [showUserModal, setShowUserModal] = useState(false);
   const [showDelete, setShowDelete] = useState<{ open: boolean; game?: Game }>({ open: false });
   const [editingGame, setEditingGame] = useState<Game | null>(null);
@@ -24,7 +21,7 @@ export default function App() {
 
   useEffect(() => {
     api.getAllGames()
-      .then((g: ApiGame[]) => setGames(g.map(x => ({ id: x.id, title: x.title, slug: x.slug, status: x.status }))))
+      .then((g: Game[]) => setGames(g))
       .catch(err => console.error("Failed to load games", err));
   }, []);
 
@@ -69,8 +66,8 @@ export default function App() {
 
       <main>
         {page === "home" && <Home />}
-  {page === "library" && <Library currentUser={currentUser} allGames={games} />}
-  {page === "admin" && <Admin games={games} onEdit={handleEdit} onDelete={handleDelete} onAdd={openAdd} />}
+        {page === "library" && <Library currentUser={currentUser} allGames={games} />}
+        {page === "admin" && <Admin games={games} onEdit={handleEdit} onDelete={handleDelete} onAdd={openAdd} />}
         {page === "add" && <GameForm onCancel={() => setPage("admin")} onSave={saveGame} />}
         {page === "edit" && editingGame && <GameForm game={editingGame} onCancel={() => setPage("admin")} onSave={saveGame} />}
         {page === "signin" && (
