@@ -6,7 +6,7 @@ export type Game = {
     releaseDate?: string;
     status?: string;
     description?: string;
-    imageUrl?: string;
+    boxArtUrl?: string;
 };
 
 export type LibraryEntry = { 
@@ -21,4 +21,20 @@ export type User = {
     displayName: string; 
     email?: string;
     admin?: boolean 
+};
+
+export type WishlistEntry = { 
+    userId: number; 
+    gameId: number; 
+    addedAt?: string 
+};
+
+export type Review = {
+    id: number;
+    userId: number;
+    gameId: number;
+    rating: number;
+    comment?: string;
+    createdAt?: string;
+    updatedAt?: string;
 };

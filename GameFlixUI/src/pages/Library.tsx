@@ -71,7 +71,7 @@ export default function Library({ currentUser, allGames }: Props) {
         <div className="d-flex flex-wrap gap-3">
           {savedGames.map(g => (
             <div key={g.id} className="gf-game-card">
-              <div className="gf-game-image">[image]</div>
+              <img src={g.boxArtUrl} alt={g.title} className="gf-game-image" />
               <div className="fw-semibold">{g.title}</div>
               <div className="text-end mt-2">
                 <button className="btn btn-sm btn-danger" onClick={() => handleRemoveFromLibrary(g)}>Remove</button>
@@ -88,7 +88,7 @@ export default function Library({ currentUser, allGames }: Props) {
           const inLibrary = library.some(e => e.gameId === g.id);
           return (
             <div key={g.id} className="gf-game-card">
-              <div className="gf-game-image">[image]</div>
+              <img src={`${g.boxArtUrl}`} alt={g.title} className="gf-game-image" />
               <div className="fw-semibold">{g.title}</div>
               <div className="d-flex justify-content-between mt-2">
                 <button className="btn btn-sm btn-outline-primary" onClick={() => setSelectedGame(g)}>Details</button>

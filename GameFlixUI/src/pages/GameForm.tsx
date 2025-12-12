@@ -46,6 +46,10 @@ export default function GameForm({ game, onCancel, onSave }: Props) {
           <input className="form-control" value={form.status || ""} onChange={e => change("status", e.target.value)} />
         </label>
         <label className="form-label">
+          Box Art URL
+          <input className="form-control" value={form.boxArtUrl || ""} onChange={e => change("boxArtUrl", e.target.value)} />
+        </label>
+        <label className="form-label">
           Description
           <textarea className="form-control" value={form.description || ""} onChange={e => change("description", e.target.value)} />
         </label>

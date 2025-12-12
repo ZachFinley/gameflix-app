@@ -1,6 +1,5 @@
 const API_BASE = "http://localhost:8080";
-
-type User = { id: number; email?: string; displayName?: string; admin?: boolean };
+import type { User } from "./types";
 
 export async function getAllGames() {
   const res = await fetch(`${API_BASE}/api/games`);

@@ -23,11 +23,11 @@ export default function Home() {
   function renderSection(title: string, items: Game[]) {
     return (
       <section className="mb-3">
-          <h3 className="mt-3">{title}</h3>
+        <h3 className="mt-3">{title}</h3>
         <div className="d-flex flex-wrap gap-3">
           {items.map(g => (
             <div key={g.id} className="gf-game-card">
-              <div className="gf-game-image">[image]</div>
+              <img src={g.boxArtUrl} alt={g.title} className="gf-game-image" />
               <div className="fw-semibold">{g.title}</div>
             </div>
           ))}
