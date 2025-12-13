@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import * as api from "../api";
 import GameModal from "../components/GameModal";
 import RemoveFromLibraryModal from "../components/RemoveFromLibraryModal";
-import type { Game, LibraryEntry } from "../types";
+import type { Game, LibraryEntry, Review } from "../types";
 
 type Props = { currentUser: { id: number } | null; allGames: Game[] };
 
@@ -11,6 +11,7 @@ export default function Library({ currentUser, allGames }: Props) {
   const [savedGames, setSavedGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [gameToRemove, setGameToRemove] = useState<Game | null>(null);
+  const [existingReview, setExistingReview] = useState<Review | undefined>(undefined);
 
   useEffect(() => {
     if (!currentUser) {
@@ -30,6 +31,23 @@ export default function Library({ currentUser, allGames }: Props) {
         setSavedGames([]);
       });
   }, [currentUser, allGames]);
+
+  useEffect(() => {
+    if (!selectedGame || !currentUser) {
+      setExistingReview(undefined);
+      return;
+    }
+    // Fetch reviews for this game and find the user's review
+    api.getGameReviews(selectedGame.id)
+      .then((reviews: Review[]) => {
+        const userReview = reviews.find(r => r.userId === currentUser.id);
+        setExistingReview(userReview);
+      })
+      .catch((err: unknown) => {
+        console.error("Failed to load reviews", err);
+        setExistingReview(undefined);
+      });
+  }, [selectedGame, currentUser]);
 
   async function handleAddToLibrary(game: Game) {
     if (!currentUser) return;
@@ -103,7 +121,36 @@ export default function Library({ currentUser, allGames }: Props) {
       </div>
 
       {selectedGame && (
-        <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} onAdd={() => handleAddToLibrary(selectedGame)} />
+        <GameModal 
+          game={selectedGame} 
+          onClose={() => {
+            setSelectedGame(null);
+            setExistingReview(undefined);
+          }} 
+          onAdd={() => handleAddToLibrary(selectedGame)}
+          currentUserId={currentUser?.id}
+          existingReview={existingReview}
+          onSubmitReview={async (review) => {
+            if (!currentUser) return;
+            try {
+              if (existingReview?.id) {
+                // Update existing review
+                await api.updateReview(existingReview.id, review);
+              } else {
+                // Add new review
+                await api.addReview(review);
+              }
+              // Fetch the updated reviews
+              const reviews = await api.getGameReviews(selectedGame.id);
+              const userReview = reviews.find((r: Review) => r.userId === currentUser.id);
+              setExistingReview(userReview);
+            } catch (err) {
+              console.error("Failed to add review", err);
+              const msg = typeof err === "object" && err !== null && "message" in err ? String((err as { message?: unknown }).message) : String(err);
+              alert("Failed to add review: " + msg);
+            }
+          }}
+        />
       )}
 
       {gameToRemove && (

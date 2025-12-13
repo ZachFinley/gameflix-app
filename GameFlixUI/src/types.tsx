@@ -34,7 +34,8 @@ export type Review = {
     userId: number;
     gameId: number;
     rating: number;
-    comment?: string;
+    title?: string;
+    body?: string;
     createdAt?: string;
     updatedAt?: string;
 };

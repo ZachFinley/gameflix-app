@@ -43,6 +43,22 @@ public class GameService {
         return reviewRepository.findByGameId(gameId);
     }
 
+    public Review addReview(Review review) {
+        return reviewRepository.save(review);
+    }
+
+    public Review updateReview(int id, Review updated) {
+        return reviewRepository.findById(id)
+                .map(existing -> {
+                    existing.setRating(updated.getRating());
+                    existing.setTitle(updated.getTitle());
+                    existing.setBody(updated.getBody());
+                    // keep userId/gameId as originally stored to avoid reassignment
+                    return reviewRepository.save(existing);
+                })
+                .orElseThrow(() -> new RuntimeException("Review not found with id: " + id));
+    }
+
     public List<Game> findGamesByStatus(String status) {
         TypedQuery<Game> query = entityManager.createQuery(
                 "SELECT g FROM Game g WHERE g.status = :status",

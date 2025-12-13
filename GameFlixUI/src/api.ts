@@ -1,5 +1,5 @@
 const API_BASE = "http://localhost:8080";
-import type { User } from "./types";
+import type { User, Review } from "./types";
 
 export async function getAllGames() {
   const res = await fetch(`${API_BASE}/api/games`);
@@ -87,6 +87,38 @@ export async function removeFromLibrary(userId: number, gameId: number) {
   return true;
 }
 
+export async function getGameReviews(gameId: number) {
+  const res = await fetch(`${API_BASE}/api/games/${gameId}/reviews`);
+  if (!res.ok) throw new Error("Failed to fetch reviews");
+  return res.json();
+}
+
+export async function addReview(review: Omit<Review, "id" | "createdAt" | "updatedAt">) {
+  const res = await fetch(`${API_BASE}/api/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || "Failed to add review");
+  }
+  return res.json();
+}
+
+export async function updateReview(reviewId: number, review: Omit<Review, "id" | "createdAt" | "updatedAt">) {
+  const res = await fetch(`${API_BASE}/api/reviews/${reviewId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(review),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || "Failed to update review");
+  }
+  return res.json();
+}
+
 export default {
   getAllGames,
   getGamesByStatus,
@@ -97,4 +129,6 @@ export default {
   findUserByEmail,
   getUserLibrary,
   isUserAdmin,
+  addReview,
+  updateReview,
 };
