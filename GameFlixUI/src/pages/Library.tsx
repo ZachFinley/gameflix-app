@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import * as api from "../api";
 import GameModal from "../components/GameModal";
+import RemoveFromLibraryModal from "../components/RemoveFromLibraryModal";
 import type { Game, LibraryEntry } from "../types";
 
 type Props = { currentUser: { id: number } | null; allGames: Game[] };
@@ -9,6 +10,7 @@ export default function Library({ currentUser, allGames }: Props) {
   const [library, setLibrary] = useState<LibraryEntry[]>([]);
   const [savedGames, setSavedGames] = useState<Game[]>([]);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
+  const [gameToRemove, setGameToRemove] = useState<Game | null>(null);
 
   useEffect(() => {
     if (!currentUser) {
@@ -53,6 +55,7 @@ export default function Library({ currentUser, allGames }: Props) {
       setLibrary(list);
       const sg = list.map((entry: LibraryEntry) => allGames.find(g => g.id === entry.gameId)).filter(Boolean) as Game[];
       setSavedGames(sg);
+      setGameToRemove(null);
     } catch (err) {
       console.error("Failed to remove from library", err);
       const msg = typeof err === "object" && err !== null && "message" in err ? String((err as { message?: unknown }).message) : String(err);
@@ -74,7 +77,7 @@ export default function Library({ currentUser, allGames }: Props) {
               <img src={g.boxArtUrl} alt={g.title} className="gf-game-image" />
               <div className="fw-semibold">{g.title}</div>
               <div className="text-end mt-2">
-                <button className="btn btn-sm btn-danger" onClick={() => handleRemoveFromLibrary(g)}>Remove</button>
+                <button className="btn btn-sm btn-danger" onClick={() => setGameToRemove(g)}>Remove</button>
               </div>
             </div>
           ))}
@@ -101,6 +104,14 @@ export default function Library({ currentUser, allGames }: Props) {
 
       {selectedGame && (
         <GameModal game={selectedGame} onClose={() => setSelectedGame(null)} onAdd={() => handleAddToLibrary(selectedGame)} />
+      )}
+
+      {gameToRemove && (
+        <RemoveFromLibraryModal 
+          game={gameToRemove}
+          onClose={() => setGameToRemove(null)}
+          onConfirm={() => handleRemoveFromLibrary(gameToRemove)}
+        />
       )}
     </div>
   );
