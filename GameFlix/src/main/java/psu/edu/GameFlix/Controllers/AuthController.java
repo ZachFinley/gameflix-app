@@ -21,10 +21,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody Map<String, String> req) {
         String result = authService.register(req);
-        if ("Username already exists".equals(result)) {
+        if ("Email already exists".equals(result)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(result);
         }
-        if ("Username and password are required".equals(result) ) {
+        if ("Email and password are required".equals(result) ) {
             return ResponseEntity.badRequest().body(result);
         }
         return ResponseEntity.ok(result);

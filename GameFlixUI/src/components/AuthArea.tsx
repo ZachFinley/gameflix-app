@@ -10,6 +10,7 @@ export default function AuthArea({ onSignedIn }: Props) {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
   async function doLogin(e?: React.FormEvent) {
@@ -43,7 +44,8 @@ export default function AuthArea({ onSignedIn }: Props) {
         const users = await api.findUserByEmail(username);
         if (users && users.length) {
           const u = users[0];
-          onSignedIn({ id: u.id, displayName: String(u.displayName || u.email || username), email: u.email, admin: u.admin });
+          const finalDisplayName = displayName.trim() || String(u.displayName || u.email || username);
+          onSignedIn({ id: u.id, displayName: finalDisplayName, email: u.email, admin: u.admin });
         }
       }
     } catch (err: unknown) {
@@ -61,6 +63,12 @@ export default function AuthArea({ onSignedIn }: Props) {
           Email
           <input className="form-control" value={username} onChange={e => setUsername(e.target.value)} />
         </label>
+        {mode === "register" && (
+          <label className="form-label">
+            Display Name
+            <input className="form-control" value={displayName} onChange={e => setDisplayName(e.target.value)}/>
+          </label>
+        )}
         <label className="form-label">
           Password
           <input className="form-control" type="password" value={password} onChange={e => setPassword(e.target.value)} />

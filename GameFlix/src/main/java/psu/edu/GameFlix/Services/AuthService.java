@@ -25,10 +25,10 @@ public class AuthService {
     public String register(Map<String, String> req) {
         String email = req.get("username").trim().toLowerCase();
         if (email.isEmpty() || req.get("password").trim().isEmpty()) {
-            return "Username and password are required";
+            return "Email and password are required";
         }
         if (userRepository.existsByEmail(email)) {
-            return "Username already exists";
+            return "Email already exists";
         }
 
         User u = new User();
@@ -45,10 +45,10 @@ public class AuthService {
         String email = req.get("username").trim().toLowerCase();
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
-            return "Invalid username or password";
+            return "Invalid email or password";
         }
         User u = userOpt.get();
         boolean matches = encoder.matches(req.get("password"), u.getPasswordHash());
-        return matches ? "Login successful" : "Invalid username or password";
+        return matches ? "Login successful" : "Invalid email or password";
     }
 }
